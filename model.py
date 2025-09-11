@@ -1,19 +1,35 @@
 import joblib
+from rich.console import Console
+from rich.panel import Panel
+from rich.text import Text
 
 def load_model(model_path='checkpoints/lgbm_model.pkl'):
     model = joblib.load(model_path)
     return model
 
+
 def predict(model, data):
+    '''
+    Make prediction using the loaded model and preprocessed data.
+    Display the prediction result with appropriate styling.
+    '''
     prediction = model.predict(data)
 
-    if prediction[0] == 0:
-        print("Prediction: No heart disease")
-    elif prediction[0] == 1:
-        print(f"Prediction: Small Risk of Heart Disease (Probability: 25%)")
-    elif prediction[0] == 2:
-        print(f"Prediction: Medium Risk of Heart Disease (Probability: 50%)")  
-    elif prediction[0] == 3:
-        print(f"Prediction: High Risk of Heart Disease (Probability: 75%)")
-    elif prediction[0] == 4:
-        print(f"Prediction: Very High Risk of Heart Disease (Probability: 100%)")
+    console = Console()
+
+    risk_map = {
+        0: ("No Heart Disease", 0.0, "green", "✅"),
+        1: ("Small Risk of Heart Disease", 0.25, "green", "🟢"),
+        2: ("Medium Risk of Heart Disease", 0.50, "yellow", "⚠️"),
+        3: ("High Risk of Heart Disease", 0.75, "red", "❌"),
+        4: ("Very High Risk of Heart Disease", 1.00, "red", "🔥"),
+    }
+
+    label, prob, color, icon = risk_map[prediction[0]]
+
+    text = Text()
+    text.append(f"{icon} {label}\n", style=f"bold {color}")
+    text.append(f"Probability: {int(prob * 100)}%\n")
+
+    console.print()
+    console.print(Panel(text, title="Prediction", title_align="left", border_style=color))

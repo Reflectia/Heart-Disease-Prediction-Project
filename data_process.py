@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd 
 import joblib
+from rich.console import Console
+from rich.table import Table
+
+console = Console()
 
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning, message="Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated*")
@@ -19,111 +23,92 @@ ONEHOT_ENCODED_COLS = ['age', 'sex', 'trestbps', 'chol', 'fbs', 'thalch', 'exang
     'thal_fixed defect', 'thal_normal', 'thal_reversable defect']
 
 
+def get_int(prompt, valid_range=None, allow_empty=False, default=None, type=int):
+    '''
+    Helper function to get validated integer input from the user.
+    '''
+    while True:
+        val = input(prompt)
+        if allow_empty and val == '':
+            return default
+        elif val == 'exit':
+            console.print("Exiting the program.", style="red")
+            exit(0)
+        try:
+            val = type(val)
+            if val < valid_range[0] or val > valid_range[1]:
+                print(f"Please enter a value in range {valid_range}")
+            else:
+                return val
+        except ValueError:
+            print("Please enter a valid value.")
+
+
 def get_user_input():
-    print("Please enter the following patient data:")
-    age = int(input("Age (0-99): "))
-    if age < 0 or age > 99:
-        raise ValueError("Age must be between 0 and 99.")
-    
-    dataset = int(input("Dataset (0=Cleveland, 1=Hungary, 2=Switzerland, 3=VA Long Beach): "))
-    if dataset < 0 or dataset > 3:
-        raise ValueError("Dataset value must be between 0 and 3.")
-    dataset = {0: 'Cleveland', 1: 'Hungary', 2: 'Switzerland', 3: 'VA Long Beach'}[dataset]
-    
-    sex = int(input("Sex (0=Female, 1=Male): "))
-    if sex not in [0, 1]:
-        raise ValueError("Sex value must be 0 or 1.")
-    sex = {0: 'Female', 1: 'Male'}[sex]
-    
-    cp = int(input("Chest pain type (0=typical angina, 1=atypical angina, 2=non-anginal, 3=asymptomatic): "))
-    if cp < 0 or cp > 3:
-        raise ValueError("Chest pain type value must be between 0 and 3.")
-    cp = {0: 'typical angina', 1: 'atypical angina', 2: 'non-anginal', 3: 'asymptomatic'}[cp]
 
-    trestbps = input("Resting blood pressure (0-250 mm Hg or ''): ")
-    if trestbps == '':
-        trestbps = np.nan
-    else:
-        trestbps = int(trestbps)
-        if trestbps < 0 or trestbps > 250:
-            raise ValueError("Resting blood pressure must be between 0 and 250 mm Hg.")
+    console.print("\n[bold cyan]💓 Heart Risk Predictor[/bold cyan]\n", justify="center")
+    
+    console.print("[italic]Press [dim]Enter[/dim] to skip optional fields[italic]")
+    console.print("[italic]Write 'exit' if you want to leave the program[italic]\n")
 
-    chol = input("Serum cholesterol (0-650 mg/dl or ''): ")
-    if chol == '':
-        chol = np.nan
-    else:
-        chol = int(chol)
-        if chol < 0 or chol > 650:
-            raise ValueError("Serum cholesterol must be between 0 and 650 mg/dl.")
-    
-    fbs = input("Fasting blood sugar > 120 mg/dl (1=True, 0=False or ''): ")
-    if fbs == '':
-        fbs = None
-    else:
-        fbs = int(fbs)
-        if fbs not in [0, 1]:
-            raise ValueError("Fasting blood sugar value must be 0 or 1.")
-        fbs = {0: False, 1: True}[fbs]
-    
-    restecg = input("Resting electrocardiographic results (0=normal, 1=st-t abnormality, 2=lv hypertrophy or ''): ")
-    if restecg == '':
-        restecg = None
-    else:
-        restecg = int(restecg)
-        if restecg < 0 or restecg > 2:
-            raise ValueError("Resting electrocardiographic results must be between 0 and 2.")
-        restecg = {0: 'normal', 1: 'st-t abnormality', 2: 'lv hypertrophy'}[restecg]
-    
-    thalch = input("Maximum heart rate achieved (0-250 or ''): ")
-    if thalch == '':
-        thalch = np.nan
-    else:
-        thalch = int(thalch)
-        if thalch < 0 or thalch > 250:
-            raise ValueError("Maximum heart rate must be between 0 and 250.")
-    
-    exang = input("Exercise-induced angina (1=Yes, 0=No or ''): ")
-    if exang == '':
-        exang = None
-    else:
-        exang = int(exang)
-        if exang not in [0, 1]:
-            raise ValueError("Exercise-induced angina value must be 0 or 1.")
-        exang = {0: False, 1: True}[exang]
-    
-    oldpeak = input("ST depression induced by exercise relative to rest (from -3 to 7 or '', float): ")
-    if oldpeak == '':
-        oldpeak = np.nan
-    else:
-        oldpeak = float(oldpeak)
-        if oldpeak < -3 or oldpeak > 7:
-            raise ValueError("ST depression value must be between -3 and 7.")
-    
-    slope = input("Slope of the peak exercise ST segment (0=downsloping, 1=flat, 2=upsloping or ''): ")
-    if slope == '':
-        slope = None
-    else:
-        slope = int(slope)
-        if slope < 0 or slope > 2:
-            raise ValueError("Slope must be between 0 and 2.")
-        slope = {0: 'downsloping', 1: 'flat', 2: 'upsloping'}[slope]
-    
-    ca = input("Number of major vessels colored by fluoroscopy (0-3 or '') : ")
-    if ca == '':
-        ca = np.nan
-    else:
-        ca = int(ca)
-        if ca < 0 or ca > 3:
-            raise ValueError("Number of major vessels must be between 0 and 3.")
-    
-    thal = input("Thalassemia (0=normal, 1=fixed defect, 2=reversible defect or ''): ")
-    if thal == '':
-        thal = None
-    else:
-        thal = int(thal)
-        if thal < 0 or thal > 2:
-            raise ValueError("Thalassemia value must be between 0 and 2.")
-        thal = {0: 'normal', 1: 'fixed defect', 2: 'reversable defect'}[thal]
+    console.print("Please enter the following patient data:", style="yellow")
+
+    console.rule("[bold blue] Patient Information (required) [/bold blue]")
+
+    # Required inputs
+    age = get_int("Age (0-99): ", valid_range=(0, 99), allow_empty=False)
+
+    dataset = get_int("Dataset (0=Cleveland, 1=Hungary, 2=Switzerland, 3=VA Long Beach): ", valid_range=(0, 3), allow_empty=False)
+
+    sex = get_int("Sex (0=Female, 1=Male): ", valid_range=(0, 1), allow_empty=False)
+
+    cp = get_int("Chest pain type (0=typical angina, 1=atypical angina, 2=non-anginal, 3=asymptomatic): ", valid_range=(0, 3), allow_empty=False)
+
+    console.rule("[bold blue] Medical Measurements (optional) [/bold blue]")
+
+    # Optional inputs    
+    trestbps = get_int("Resting blood pressure (0-250 mm Hg or skip): ", valid_range=(0, 250), allow_empty=True, default=np.nan)
+
+    chol = get_int("Serum cholesterol (0-650 mg/dl or skip): ", valid_range=(0, 650), allow_empty=True, default=np.nan)
+
+    fbs = get_int("Fasting blood sugar > 120 mg/dl (1=True, 0=False or skip): ", valid_range=(0, 1), allow_empty=True, default=None)
+
+    restecg = get_int("Resting electrocardiographic results (0=normal, 1=st-t abnormality, 2=lv hypertrophy or skip): ", valid_range=(0, 2), 
+                      allow_empty=True, default=None)
+
+    thalch = get_int("Maximum heart rate achieved (0-250 or skip): ", valid_range=(0, 250), allow_empty=True, default=np.nan)
+
+    exang = get_int("Exercise-induced angina (1=Yes, 0=No or skip): ", valid_range=(0, 1), allow_empty=True, default=None)
+
+    oldpeak = get_int("ST depression induced by exercise relative to rest (from -3 to 7 (float) or skip): ", valid_range=(-3, 7), 
+                    allow_empty=True, default=np.nan, type=float)
+
+    slope = get_int("Slope of the peak exercise ST segment (0=downsloping, 1=flat, 2=upsloping or skip): ", valid_range=(0, 2), 
+                    allow_empty=True, default=None)
+
+    ca = get_int("Number of major vessels colored by fluoroscopy (0-3 or skip) : ", valid_range=(0, 3), allow_empty=True, default=np.nan)
+
+    thal = get_int("Thalassemia (0=normal, 1=fixed defect, 2=reversible defect or skip): ", valid_range=(0, 2), 
+                   allow_empty=True, default=None)
+
+    # Build a nice summary table
+    table = Table(title="User Input Summary", show_lines=True, header_style="bold magenta")
+
+    data = {
+        "Age": age, "Dataset": dataset, "Sex": sex, "Chest Pain": cp,
+        "Resting BP": trestbps, "Cholesterol": chol, "Fasting BS": fbs,
+        "Resting ECG": restecg, "Max Heart Rate": thalch,
+        "Exercise Angina": exang, "ST Depression": oldpeak,
+        "Slope": slope, "Vessels": ca, "Thalassemia": thal
+    }
+
+    for k in data.keys():
+        table.add_column(k, style="cyan", no_wrap=True)
+
+    table.add_row(*[str(v) for v in data.values()])
+
+    console.print("\n")
+    console.print(table)
 
     return {
         "age": age,
@@ -146,8 +131,8 @@ def get_user_input():
 def preprocess_data(data):
 
     input_df = pd.DataFrame([data])
-    print("User input:\n", input_df)
         
+    # Handle missing values
     input_df['trestbps'] = input_df['trestbps'].fillna(TRESTBPS_MEAN)
     input_df['chol'] = input_df['chol'].fillna(CHOL_MEAN)
     input_df['thalch'] = input_df['thalch'].fillna(THALCH_MEAN)
@@ -158,18 +143,20 @@ def preprocess_data(data):
     for col in ['fbs', 'exang']:
        input_df[col] = input_df[col].fillna(False)
 
+    # One-hot encode categorical variables
     input_df_encoded = pd.get_dummies(input_df, columns=['dataset', 'cp', 'restecg', 'slope', 'thal'], dtype=int)
 
     # Align with training columns
     input_df_encoded = input_df_encoded.reindex(columns=ONEHOT_ENCODED_COLS, fill_value=0)
 
+    # Label encode binary categorical variables
     le = joblib.load('checkpoints/label_encoder.pkl')
 
     for col in ['sex', 'fbs', 'exang']:
         input_df_encoded[col] = le.transform(input_df_encoded[col])
 
-    print("Data was preprocessed")
+    console.print("Data was preprocessed", style="yellow")
 
     return input_df_encoded
-    
+
 
