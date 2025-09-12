@@ -15,6 +15,7 @@ It provides:
 - [Environment Setup](#️-environment-setup)
 - [Dependencies](#-dependencies)
 - [Usage](#️-usage)
+- [Model Interpretation](#️-model-interpretation)
 
 ---
 
@@ -104,3 +105,18 @@ The application will:
 2.	Preprocess the data
 3.	Run inference with the trained model
 4.	Show the predicted probability of heart disease
+
+---
+
+## 🧩 Model Interpretation
+
+To better understand which features influence the model’s predictions, SHAP (SHapley Additive exPlanations) was used.  
+
+Below are the feature importance plots for the **Healthy** class (class 0) and the **Ill** class (all other stages grouped). These bar plots highlight the top contributing features for each class.
+
+### 🔹 Feature Importance for Healthy Class
+![SHAP Healthy](images/plot_healthy.png)
+
+### 🔹 Feature Importance for Ill Class
+![SHAP Ill](images/plot_ill.png)
+
