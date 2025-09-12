@@ -1,11 +1,11 @@
 # ❤️ Heart Disease Prediction Project
 
+![Python](https://img.shields.io/badge/python-3.11-blue.svg)
+
 This project implements an **LGBMClassifier** model to classify heart disease stages from the [UCI Heart Disease Dataset](https://www.kaggle.com/datasets/redwankarimsony/heart-disease-data/data).  
 It provides:
 - Two Jupyter notebooks for **exploration** and **model training**  
 - A simple **CLI tool** for inference and evaluation  
-
-![Python](https://img.shields.io/badge/python-3.11-blue.svg)
 
 ---
 
@@ -77,22 +77,23 @@ pip freeze > requirements.txt
 
 ## 📦 Dependencies
 Main libraries used:
-•	numpy
-•	pandas
-•	scikit-learn
-•	matplotlib
-•	seaborn
-•	shap
-•	lightgbm
+- numpy
+- pandas
+- scikit-learn
+- matplotlib
+- seaborn
+- shap
+- lightgbm
 
 ---
 
 ## ▶️ Usage
 Run the CLI with:
 
-    ```bash
-    python main.py
-    
+   ```bash
+   python main.py
+   ```
+
 The application will:
 1.	Prompt you for patient input data
 2.	Preprocess the data
