@@ -56,7 +56,12 @@ The chosen model is **LightGBM’s LGBMClassifier**, which is efficient for tabu
 | Predicted Healthy   | 65 ✅ (True Negative) | 14 ❌ (False Negative) |
 | Predicted Ill       | 16 ❌ (False Positive) | 89 ✅ (True Positive) |
 
-- Precision, recall, and F1-score were also calculated from these results (see above table).  
+From these results (binary healthy vs ill classification):  
+- **Precision**: 84.8%  
+- **Recall**: 86.4%  
+- **F1-score**: 85.6%  
+
+This shows that the model is reasonably good at detecting ill patients (high recall), while keeping false positives relatively low (high precision).
 
 ---
 
