@@ -1,0 +1,20 @@
+Bottleneck @ file:///C:/b/abs_816hr2khp1/croot/bottleneck_1731058648110/work
+joblib @ file:///C:/b/abs_0ahqdkwgvn/croot/joblib_1754310214981/work
+lightgbm @ file:///C:/b/abs_3epc06ws3_/croot/lightgbm_1741973076381/work
+markdown-it-py @ file:///C:/b/abs_3espcrdl35/croot/markdown-it-py_1756299213703/work
+mdurl @ file:///C:/ci_311/mdurl_1676442676678/work
+mkl-service==2.4.0
+mkl_fft @ file:///C:/b/abs_64riv3lfyn/croot/mkl_fft_1751310924052/work
+mkl_random @ file:///C:/b/abs_47jvsmau4j/croot/mkl_random_1751310922820/work
+numexpr @ file:///C:/b/abs_3buvfgcf6r/croot/numexpr_1755766488094/work
+numpy @ file:///C:/b/abs_81ri0q57xq/croot/numpy_and_numpy_base_1755590863635/work/dist/numpy-1.26.4-cp311-cp311-win_amd64.whl#sha256=af156afd482d0009c90438c87a9974684f1ae8a95663cd70990b263c322310ed
+pandas @ file:///C:/b/abs_58a1hlvjeo/croot/pandas_1756466410850/work/dist/pandas-2.3.2-cp311-cp311-win_amd64.whl#sha256=1728e1473f9a0b1d06afa0897ce043c8a8c896e44d865d8ca564deaa0f58de58
+Pygments @ file:///C:/b/abs_e4bg5vh5j_/croot/pygments_1744667628203/work
+python-dateutil @ file:///C:/b/abs_3au_koqnbs/croot/python-dateutil_1716495777160/work
+pytz @ file:///C:/b/abs_f8wdzeix0n/croot/pytz_1752135878094/work
+rich @ file:///C:/b/abs_8b92fzmygg/croot/rich_1732638991774/work
+scikit-learn @ file:///C:/b/abs_38k7ridbgr/croot/scikit-learn_1684954723009/work
+scipy @ file:///C:/miniconda3/conda-bld/scipy_1757315823621/work/dist/scipy-1.16.1-cp311-cp311-win_amd64.whl#sha256=35fea9bdada2043e1ad46d7fc94838b87422323c99a96ca999714c31a1e3eff8
+six @ file:///C:/b/abs_149wuyuo1o/croot/six_1744271521515/work
+threadpoolctl @ file:///C:/b/abs_def0dwqlft/croot/threadpoolctl_1719407816649/work
+tzdata @ file:///croot/python-tzdata_1746123641790/work
