@@ -10,15 +10,15 @@ It provides:
 ---
 
 ## 📌 Table of Contents
-- [Overview](#overview)
-- [Findings](#findings)
+- [🔎 Overview](#overview)
+- [📊 Findings](#findings)
 - [Environment Setup](#environment-setup)
 - [Dependencies](#dependencies)
 - [Usage](#usage)
 
 ---
 
-## Overview
+## 🔎 Overview
 The goal of this project is to predict the **stage of heart disease** based on patient attributes and to interpret model results.  
 
 To provide an interactive way of using the model, a **CLI application** was built with preprocessing included. The output is the **predicted probability** of having heart disease.  
@@ -60,7 +60,7 @@ The chosen model is **LightGBM’s LGBMClassifier**, which is efficient for tabu
 
 ---
 
-## ⚙️ Environment Setup
+## Environment Setup ⚙️
 This project uses **Conda** for environment management.  
 
 1. Create environment:  
