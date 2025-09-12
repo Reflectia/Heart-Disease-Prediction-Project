@@ -10,11 +10,11 @@ It provides:
 ---
 
 ## 📌 Table of Contents
-- [🔎 Overview](#overview)
-- [📊 Findings](#findings)
-- [Environment Setup](#environment-setup)
-- [Dependencies](#dependencies)
-- [Usage](#usage)
+- [Overview](#-overview)
+- [Findings](#-findings)
+- [Environment Setup](#-environment-setup)
+- [Dependencies](#-dependencies)
+- [Usage](#-usage)
 
 ---
 
@@ -60,7 +60,7 @@ The chosen model is **LightGBM’s LGBMClassifier**, which is efficient for tabu
 
 ---
 
-## Environment Setup ⚙️
+## ⚙️ Environment Setup
 This project uses **Conda** for environment management.  
 
 1. Create environment:  
