@@ -18,7 +18,7 @@ It provides:
 
 ---
 
-## 🔎 [Overview]
+## Overview
 The goal of this project is to predict the **stage of heart disease** based on patient attributes and to interpret model results.  
 
 To provide an interactive way of using the model, a **CLI application** was built with preprocessing included. The output is the **predicted probability** of having heart disease.  
