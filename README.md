@@ -15,7 +15,7 @@ It provides:
 - [Environment Setup](#️-environment-setup)
 - [Dependencies](#-dependencies)
 - [Usage](#️-usage)
-- [Model Interpretation](#️-model-interpretation)
+- [Model Interpretation](#-model-interpretation)
 
 ---
 
@@ -115,8 +115,8 @@ To better understand which features influence the model’s predictions, SHAP (S
 Below are the feature importance plots for the **Healthy** class (class 0) and the **Ill** class (all other stages grouped). These bar plots highlight the top contributing features for each class.
 
 ### 🔹 Feature Importance for Healthy Class
-![SHAP Healthy](images/plot_healthy.png)
+![SHAP Healthy](images/healthy_plot.png)
 
 ### 🔹 Feature Importance for Ill Class
-![SHAP Ill](images/plot_ill.png)
+![SHAP Ill](images/ill_plot.png)
 
