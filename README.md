@@ -12,9 +12,9 @@ It provides:
 ## 📌 Table of Contents
 - [Overview](#-overview)
 - [Findings](#-findings)
-- [Environment Setup](#-environment-setup)
+- [Environment Setup](#️-environment-setup)
 - [Dependencies](#-dependencies)
-- [Usage](#-usage)
+- [Usage](#️-usage)
 
 ---
 
