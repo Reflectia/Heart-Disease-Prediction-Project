@@ -35,16 +35,16 @@ The chosen model is **LightGBM’s LGBMClassifier**, which is efficient for tabu
 ---
 
 ## 📊 Findings
-**Results on the test set (20% split):**
+**Results on the whole set after cross-validation:**
 
 | Class | Precision | Recall | F1-score | Support |
 |-------|-----------|--------|----------|---------|
-| 0 (Healthy) | 0.82 | 0.80 | 0.81 | 81 |
-| 1 | 0.54 | 0.49 | 0.51 | 43 |
-| 2 | 0.29 | 0.26 | 0.27 | 27 |
-| 3 | 0.28 | 0.32 | 0.30 | 28 |
-| 4 (Final stage) | 0.00 | 0.00 | 0.00 | 5 |
-| **Weighted Avg** | **0.57** | **0.55** | **0.56** | **184** |
+| 0 (Healthy)      | 0.836 | 0.766 | 0.799 | 411 |
+| 1                | 0.591 | 0.517 | 0.551 | 265 |
+| 2                | 0.331 | 0.431 | 0.375 | 109 |
+| 3                | 0.277 | 0.383 | 0.322 | 107 |
+| 4 (Final stage)  | 0.095 | 0.071 | 0.082 | 28  |
+| **Weighted Avg** | **0.618** | **0.589** | **0.600** | **920** |
 
 📌 Observations:
 - Best performance on **Class 0 (Healthy)**  
@@ -52,15 +52,15 @@ The chosen model is **LightGBM’s LGBMClassifier**, which is efficient for tabu
 
 **Confusion Matrix Summary:**
 
-| Prediction / Actual | Healthy | Ill |
+| Actual / Prediction | Predicted Healthy | Predicted Ill |
 |---------------------|---------|-----|
-| Predicted Healthy   | 65 ✅ (True Negative) | 14 ❌ (False Negative) |
-| Predicted Ill       | 16 ❌ (False Positive) | 89 ✅ (True Positive) |
+| Healthy   | 315 ✅ (True Negative) | 96 ❌ (False Positive) |
+| Ill       | 62 ❌ (False Negative) | 447 ✅ (True Positive) |
 
 From these results (binary healthy vs ill classification):  
-- **Precision**: 84.8%  
-- **Recall**: 86.4%  
-- **F1-score**: 85.6%  
+- **Precision**: 76.6%  
+- **Recall**: 83.6%  
+- **F1-score**: 79.9%
 
 This shows that the model is reasonably good at detecting ill patients (high recall), while keeping false positives relatively low (high precision).
 
