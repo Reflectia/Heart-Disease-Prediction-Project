@@ -5,7 +5,7 @@
 This project implements an **LGBMClassifier** model to classify heart disease stages from the [UCI Heart Disease Dataset](https://www.kaggle.com/datasets/redwankarimsony/heart-disease-data/data).  
 It provides:
 - Two Jupyter notebooks for **exploration** and **model training**, one of them is placed on [kaggle](https://www.kaggle.com/code/nadiakachurynets/heart-disease-prediction)
-- A simple **CLI tool** for inference and evaluation  
+- A simple user-friendly **CLI tool** for inference
 
 ---
 
