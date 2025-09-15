@@ -76,8 +76,6 @@ This project uses **Conda** for environment management.
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt
-💡 If you don’t yet have requirements.txt, generate it from your environment:
-pip freeze > requirements.txt
 
 ---
 
