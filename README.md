@@ -115,8 +115,7 @@ To better understand which features influence the model’s predictions, SHAP (S
 Below are the feature importance plots for the **Healthy** class (class 0) and the **Ill** class (all other stages grouped). These bar plots highlight the top contributing features for each class.
 
 ### 🔹 Feature Importance for Healthy Class
-![SHAP Healthy](images/healthy_plot.png)
+<img src="images/healthy_plot.png" alt="SHAP Healthy Plot" width="70%"/>
 
 ### 🔹 Feature Importance for Ill Class
-![SHAP Ill](images/ill_plot.png)
-
+<img src="images/ill_plot.png" alt="SHAP Ill Plot" width="70%"/>
