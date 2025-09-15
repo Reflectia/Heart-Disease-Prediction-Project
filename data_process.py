@@ -9,18 +9,18 @@ console = Console()
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning, message="Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated*")
 
-TRESTBPS_MEAN = 132.2860465116279
-CHOL_MEAN = 246.83286908077994
+TRESTBPS_MEDIAN = 130.0
+CHOL_MEDIAN = 239.5
 THALCH_MEAN = 137.5456647398844
-OLDPEAK_MEAN = 0.8787878787878788
+OLDPEAK_MEDIAN = 0.5
 
-ONEHOT_ENCODED_COLS = ['age', 'sex', 'trestbps', 'chol', 'fbs', 'thalch', 'exang', 'oldpeak',
-    'ca', 'dataset_Cleveland', 'dataset_Hungary',
-    'dataset_Switzerland', 'dataset_VA Long Beach', 'cp_asymptomatic',
-    'cp_atypical angina', 'cp_non-anginal', 'cp_typical angina',
-    'restecg_lv hypertrophy', 'restecg_normal', 'restecg_st-t abnormality',
-    'slope_downsloping', 'slope_flat', 'slope_upsloping',
-    'thal_fixed defect', 'thal_normal', 'thal_reversable defect']
+ONEHOT_ENCODED_COLS = ['age', 'sex', 'trestbps', 'chol', 'fbs', 'restecg', 'thalch', 'exang',
+       'oldpeak', 'ca', 'chol_group', 'dataset_Cleveland',
+       'dataset_Hungary', 'dataset_Switzerland', 'dataset_VA Long Beach',
+       'cp_asymptomatic', 'cp_atypical angina', 'cp_non-anginal',
+       'cp_typical angina', 'slope_downsloping', 'slope_flat',
+       'slope_upsloping', 'thal_fixed defect', 'thal_normal',
+       'thal_reversable defect']
 
 
 def get_int(prompt, valid_range=None, allow_empty=False, default=None, type=int):
@@ -133,21 +133,32 @@ def preprocess_data(data):
     input_df = pd.DataFrame([data])
         
     # Handle missing values
-    input_df['trestbps'] = input_df['trestbps'].fillna(TRESTBPS_MEAN)
-    input_df['chol'] = input_df['chol'].fillna(CHOL_MEAN)
+    input_df['trestbps'] = input_df['trestbps'].fillna(TRESTBPS_MEDIAN)
+    input_df['chol'] = input_df['chol'].fillna(CHOL_MEDIAN)
     input_df['thalch'] = input_df['thalch'].fillna(THALCH_MEAN)
-    input_df['oldpeak'] = input_df['oldpeak'].fillna(OLDPEAK_MEAN)
+    input_df['oldpeak'] = input_df['oldpeak'].fillna(OLDPEAK_MEDIAN)
 
     input_df['ca'] = input_df['ca'].fillna(0)
 
     for col in ['fbs', 'exang']:
        input_df[col] = input_df[col].fillna(False)
 
+    input_df['restecg'] = input_df['restecg'].fillna('normal')
+
+    # Map numerical feature to categorical
+    input_df["chol_group"] = input_df["chol"].apply(cholesterol_group)
+
     # One-hot encode categorical variables
-    input_df_encoded = pd.get_dummies(input_df, columns=['dataset', 'cp', 'restecg', 'slope', 'thal'], dtype=int)
+    input_df_encoded = pd.get_dummies(input_df, columns=['dataset', 'cp', 'slope', 'thal'], dtype=int)
 
     # Align with training columns
     input_df_encoded = input_df_encoded.reindex(columns=ONEHOT_ENCODED_COLS, fill_value=0)
+
+    # Label encode 'restecg'
+    restecg_val = ['lv hypertrophy', 'normal', 'st-t abnormality']
+    
+    for i, val in enumerate(restecg_val):
+        input_df_encoded['restecg'] = input_df_encoded['restecg'].replace(val, i-1)
 
     # Label encode binary categorical variables
     le = joblib.load('checkpoints/label_encoder.pkl')
@@ -160,3 +171,12 @@ def preprocess_data(data):
     return input_df_encoded
 
 
+def cholesterol_group(chol):
+    if chol < 200:
+        return 0
+    elif chol <= 239:
+        return 1
+    elif chol <= 299:
+        return 2
+    else:
+        return 3
